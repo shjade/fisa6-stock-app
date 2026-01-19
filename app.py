@@ -90,16 +90,27 @@ if confirm_btn:
                 dfp = price_df.reset_index()          # 날짜가 인덱스면 컬럼으로 빼기
                 date_col = dfp.columns[0]             # 보통 Date인데 안전하게 첫 컬럼 사용
 
-                fig = px.line(
-                    dfp,
-                    x=date_col,
-                    y="Close",
-                    title=f"{company_name} 종가 추이"
+                fig = go.Figure(
+                    data=[
+                        go.Candlestick(
+                            x=dfp[date_col],
+                            open=dfp["Open"],
+                            high=dfp["High"],
+                            low=dfp["Low"],
+                            close=dfp["Close"],
+                            name="OHLC"
+                        )
+                    ]
                 )
 
-                fig.update_layout(hovermode="x unified")
-                st.plotly_chart(fig, use_container_width=True)
+                fig.update_layout(
+                    title=f"{company_name} 캔들차트",
+                    xaxis_title="Date",
+                    yaxis_title="Price",
+                    xaxis_rangeslider_visible=False,   # 밑에 슬라이더 끄기(취향)
+                )
 
+                st.plotly_chart(fig, use_container_width=True)
                 # 엑셀 다운로드 기능
                 output = BytesIO()
                 with pd.ExcelWriter(output, engine='openpyxl') as writer:

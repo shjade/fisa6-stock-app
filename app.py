@@ -52,18 +52,21 @@ company_name = st.sidebar.text_input('조회할 회사를 입력하세요')
 
 #  v
 today = datetime.datetime.now()
-st.write(f'today{today}')
+# st.write(f'today{today}')
 
 jan_1 = datetime.date(today.year, 1, 1)
 selected_dates = st.sidebar.date_input(
-    "S조회할 회사를 입력하세요",
+    "조회할 기간을 입력하세요",
     (jan_1,today),
     format="MM.DD.YYYY",
 )
-selected_dates
+#selected_dates
 
-
-
+st.subheader("안녕하세요")
+st.markdown(f"""
+**현재 시간은**  
+`{today}`
+""")
 
 confirm_btn = st.sidebar.button('조회하기') # 클릭하면 True
 
@@ -104,7 +107,7 @@ if confirm_btn:
                 )
 
                 fig.update_layout(
-                    title=f"{company_name} 캔들차트",
+                    title=f"{company_name} candle chart",
                     xaxis_title="Date",
                     yaxis_title="Price",
                     xaxis_rangeslider_visible=False,   # 밑에 슬라이더 끄기(취향)

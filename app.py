@@ -20,6 +20,7 @@ import plotly.graph_objects as go
 my_name = os.getenv('MY_NAME')
 st.header(my_name)
 
+@st.cache_data(ttl=60*60*24)  # 24시간 캐시
 def get_krx_company_list() -> pd.DataFrame:
     try:
         # 파이썬 및 인터넷의 기본 문자열 인코딩 방식- UTF-8

@@ -47,28 +47,47 @@ def get_stock_code_by_company(company_name: str) -> str:
     else:
         raise ValueError(f"'{company_name}'을 찾을 수 없습니다. 종목코드 6자리를 직접 입력해보세요.")
 
-company_name = st.sidebar.text_input('조회할 회사를 입력하세요')
 
 
-#  v
+
+# --- 사이드바 꾸미기 ---
+st.sidebar.markdown("## 📈 차트 확인 하기")
+st.sidebar.caption("회사명과 기간을 선택한 뒤 조회하기를 눌러주세요.")
+st.sidebar.markdown("---")
+
+company_name = st.sidebar.text_input("조회할 회사를 입력하세요")
+
 today = datetime.datetime.now()
-# st.write(f'today{today}')
+now_str = today.strftime("%Y-%m-%d %H:%M:%S")
 
 jan_1 = datetime.date(today.year, 1, 1)
 selected_dates = st.sidebar.date_input(
     "조회할 기간을 입력하세요",
-    (jan_1,today),
+    (jan_1, today),
     format="MM.DD.YYYY",
 )
-#selected_dates
+
+
+confirm_btn = st.sidebar.button("🔍 조회하기")
+
+st.sidebar.markdown(f"""
+⏰ **오늘 날짜는**
+`{now_str}`
+""")
+
 
 st.subheader("안녕하세요")
 st.markdown(f"""
-**현재 시간은**  
+**⏰현재 시간은⏰**  
 `{today}`
 """)
 
-confirm_btn = st.sidebar.button('조회하기') # 클릭하면 True
+
+
+
+
+
+
 
 # --- 메인 로직 ---
 if confirm_btn:

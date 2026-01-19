@@ -14,6 +14,8 @@ import FinanceDataReader as fdr
 import matplotlib.pyplot as plt
 import koreanize_matplotlib
 import os
+import plotly.express as px
+import plotly.graph_objects as go
 
 my_name = os.getenv('MY_NAME')
 st.header(my_name)
@@ -84,11 +86,19 @@ if confirm_btn:
                 st.subheader(f"[{company_name}] 주가 데이터")
                 st.dataframe(price_df.tail(10), width="stretch")
 
-                # Matplotlib 시각화
-                fig, ax = plt.subplots(figsize=(12, 5))
-                price_df['Close'].plot(ax=ax, grid=True, color='red')
-                ax.set_title(f"{company_name} 종가 추이", fontsize=15)
-                st.pyplot(fig)
+                # Plotly 시각화 (인터랙티브 라인차트)
+                dfp = price_df.reset_index()          # 날짜가 인덱스면 컬럼으로 빼기
+                date_col = dfp.columns[0]             # 보통 Date인데 안전하게 첫 컬럼 사용
+
+                fig = px.line(
+                    dfp,
+                    x=date_col,
+                    y="Close",
+                    title=f"{company_name} 종가 추이"
+                )
+
+                fig.update_layout(hovermode="x unified")
+                st.plotly_chart(fig, use_container_width=True)
 
                 # 엑셀 다운로드 기능
                 output = BytesIO()
